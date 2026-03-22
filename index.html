@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>symly.ai</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #f8fafc;
+            color: #0f172a;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .center {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .card {
+            pointer-events: auto;
+            padding: 32px 40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(6px);
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<div class="center">
+    <div class="card">
+        <div class="logo">symly.ai</div>
+        <div class="subtitle">coming soon</div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+let offset = 0;
+
+function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener("resize", resize);
+resize();
+
+function draw() {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const spacing = 40;
+    offset += 0.2;
+
+    ctx.strokeStyle = "rgba(148,163,184,0.25)";
+    ctx.lineWidth = 1;
+
+    for (let x = -spacing; x < w + spacing; x += spacing) {
+        ctx.beginPath();
+        ctx.moveTo(x + (offset % spacing), 0);
+        ctx.lineTo(x + (offset % spacing), h);
+        ctx.stroke();
+    }
+
+    for (let y = -spacing; y < h + spacing; y += spacing) {
+        ctx.beginPath();
+        ctx.moveTo(0, y + (offset % spacing));
+        ctx.lineTo(w, y + (offset % spacing));
+        ctx.stroke();
+    }
+
+    requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
